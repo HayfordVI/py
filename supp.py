@@ -1,30 +1,51 @@
 import random as rd
 
-emojis = {'r': '🪨',  'p': '📃', 's': '✂️'}
-choices = ('r', 'p', 's')
+ROCK = 'r'
+PAPER = 'p'
+SCISSORS = 's'
+emojis = {ROCK: '🪨',  PAPER: '📃', SCISSORS: '✂️'}
+choices = tuple(emojis.keys())
 
 
-while True:
-    user_choice = input('Rock, paper, scissors? (r/p/s): ').lower()
-    if user_choice not in choices:
-        print('Invalid choice')
-        continue
+def get_user_choice():
+    while True:
+        user_choice = input('Rock, paper, scissors? (r/p/s): ').lower()
+        if user_choice in choices:
+            return user_choice
+        else:
+            print('Invalid choice!')
 
-    computer_choice = rd.choice(choices)
 
+def display_choice(user_choice, computer_choice):
     print(f'You chose {emojis[user_choice]}')
     print(f'Computer chose {emojis[computer_choice]}')
 
+
+def determine_winner(user_choice, computer_choice):
     if user_choice == computer_choice:
         print('Tie')
     elif (
-        (user_choice == 'r' and computer_choice == 's') or
-        (user_choice == 'p' and computer_choice == 'r') or
-            (user_choice == 's' and computer_choice == 'p')):
+        (user_choice == ROCK and computer_choice == SCISSORS) or
+        (user_choice == PAPER and computer_choice == ROCK) or
+            (user_choice == SCISSORS and computer_choice == PAPER)):
         print("You win")
     else:
         print('You lose')
 
-    should_continue = input('Continue? (y/n): ').lower()
-    if should_continue == 'n':
-        break
+
+def play_game():
+    while True:
+        user_choice = get_user_choice()
+
+        computer_choice = rd.choice(choices)
+
+        display_choice(user_choice, computer_choice)
+
+        determine_winner(user_choice, computer_choice)
+
+        should_continue = input('Continue? (y/n): ').lower()
+        if should_continue == 'n':
+            break
+
+
+play_game()
